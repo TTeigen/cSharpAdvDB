@@ -10,7 +10,7 @@ namespace SweetsTreats.Models
         }
 
         public int TreatId { get; set; }
-        public string Title { get; set; }
+        public string Name { get; set; }
 
         public ICollection<FlavorTreat> Flavors { get; }
     }

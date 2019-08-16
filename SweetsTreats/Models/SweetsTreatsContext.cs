@@ -1,15 +1,15 @@
-using System;
-using MySql.Data.MySqlClient;
-using SweetsTreats;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace SweetsTreats.Models
 {
-    public class DB
+    public class SweetsTreatsContext : IdentityDbContext<ApplicationUser>
     {
-        public static MySqlConnection Connection()
-        {
-            MySqlConnection conn = new MySqlConnection(DBConfiguration.ConnectionString);
-            return conn;
-        }
+        public DbSet<Treat> Treats { get; set; }
+        public DbSet<Flavor> Flavors { get; set; }
+        public DbSet<FlavorTreat> FlavorTreats { get; set; }
+
+
+        public SweetsTreatsContext(DbContextOptions options) : base(options) { }
     }
 }
