@@ -28,7 +28,7 @@ namespace SweetsTreats
                 .UseMySql(Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<PierreContext>()
+                .AddEntityFrameworkStores<SweetsTreatsContext>()
                 .AddDefaultTokenProviders();
         }
 

@@ -1,16 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 using SweetsTreats.Models;
 
-
-namespace SweetsTreatsControllers
+namespace SweetsTreats.Controllers
 {
-
-    class TreatsController : Controller
+    public class TreatsController : Controller
     {
         private readonly SweetsTreatsContext _db;
 
@@ -21,8 +17,8 @@ namespace SweetsTreatsControllers
 
         public ActionResult Index()
         {
-            var treats = _db.Treats.ToList();
-            return View(treats);
+            List<Treat> model = _db.Treats.ToList();
+            return View(model);
         }
 
         public ActionResult Create()
@@ -40,12 +36,37 @@ namespace SweetsTreatsControllers
 
         public ActionResult Details(int id)
         {
+            Treat thisTreat = _db.Treats.FirstOrDefault(treats => treats.TreatId == id);
+            return View(thisTreat);
+        }
 
-            var model = _db.Treats
-            .Include(treat => treat.Genres)
-            .ThenInclude(join => join.Genre)
-            .FirstOrDefault(treat => treat.TreatId == id);
-            return View(model);
+        public ActionResult Edit(int id)
+        {
+            var thisTreat = _db.Treats.FirstOrDefault(treats => treats.TreatId == id);
+            return View(thisTreat);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Treat treat)
+        {
+            _db.Entry(treat).State = EntityState.Modified;
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var thisTreat = _db.Treats.FirstOrDefault(treats => treats.TreatId == id);
+            return View(thisTreat);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            var thisTreat = _db.Treats.FirstOrDefault(treats => treats.TreatId == id);
+            _db.Treats.Remove(thisTreat);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
