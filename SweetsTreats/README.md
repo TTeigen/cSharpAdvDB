@@ -11,16 +11,20 @@ User can add treats with various flavors, remove them, or modify them
 ### Specs
 
 
-| Spec |
-| :-------------     |
-| **CREATE DATABASE trevor_teigen;** |
-| **USE trevor_teigen;** |
-| **CREATE TABLE  Clients (ClientId PRIMARY KEY, name VARCHAR(255), stylistId INT(11);** |
-| **CREATE TABLE Stylists (StylistId PRIMARY KEY, name VARCHAR(255)), specialty VARCHAR(255);** |
-| -----------------------------------------------------------     |
-| **_** |
-| **_** |
-| **_** |
+### Specs
+| Spec | Input | Output |
+| :-------------     | :------------- | :------------- |
+| **Show a splash page with navigation options** | View Index | "Welcome" page |
+|Just a simple splash page marking the "homepage" of the application|
+| **Add a Flavor or Treat** | New Treat or New Flavor | Store Flavor/Treat in Database |
+|By storing the flavors and treats in databases we will be able to call/edit them later|
+| **Edit Treat or Flavor** | Chocolate Croissant has a sweet flavor not spicy | ChocolateCroissant(TreatId 1) joined with Flavor Sweet (FlavorId 1) instead of Flavor Spicy (FlavorId 2) |
+|Being able to update the flavor/treat relationships will change how the user sees them on the corresponding pages|
+| **Display information about a specific Flavor/Treat** | Flavor Category "Sweet" | Lists "Chocolate Croissant, Cookie, Twinkie" |
+|We want users to be able to sort by flavor or treat and see the corresponding information|
+| **Delete Flavor or Treat** | No longer need "Spicy" | Remove's spicy as a flavor from the database |
+|If a product is no longer available or a flavor is no longer relevant we want to remove it from the database|
+
 
 ## Setup/Installation Requirements
 
