@@ -22,6 +22,14 @@ namespace SweetsTreats
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddEntityFrameworkMySql()
+                .AddDbContext<SweetTreatsContext>(options => options
+                .UseMySql(Configuration["ConnectionStrings:DefaultConnection"]));
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<PierreContext>()
+                .AddDefaultTokenProviders();
         }
 
         public void Configure(IApplicationBuilder app)
