@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using SweetsTreats.Models;
 
 namespace SweetsTreats
 {
@@ -24,7 +25,7 @@ namespace SweetsTreats
             services.AddMvc();
 
             services.AddEntityFrameworkMySql()
-                .AddDbContext<SweetTreatsContext>(options => options
+                .AddDbContext<SweetsTreatsContext>(options => options
                 .UseMySql(Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()

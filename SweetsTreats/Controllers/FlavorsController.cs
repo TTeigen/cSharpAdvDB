@@ -48,7 +48,7 @@ namespace SweetsTreats.Controllers
             _db.Flavors.Add(flavor);
             if (TreatId != 0)
             {
-                _db.FlavorTreat.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });
+                _db.FlavorTreats.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });
 
             }
             _db.SaveChanges();
@@ -76,7 +76,7 @@ namespace SweetsTreats.Controllers
         {
             if (TreatId != 0)
             {
-                _db.FlavorTreat.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });
+                _db.FlavorTreats.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });
             }
             _db.Entry(flavor).State = EntityState.Modified;
             _db.SaveChanges();
@@ -101,8 +101,8 @@ namespace SweetsTreats.Controllers
         [HttpPost]
         public ActionResult DeleteCategory(int joinId)
         {
-            var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
-            _db.FlavorTreat.Remove(joinEntry);
+            var joinEntry = _db.FlavorTreats.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
+            _db.FlavorTreats.Remove(joinEntry);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }

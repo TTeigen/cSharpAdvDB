@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Collections.Generic;
 using SweetsTreats.Models;
 
+
 namespace SweetsTreats.Controllers
 {
     [Authorize]
@@ -31,7 +32,7 @@ namespace SweetsTreats.Controllers
         public ActionResult Details(int id)
         {
             var model = _db.Treats
-            .Include(treat => treat.FlavorTreats)
+            .Include(treat => treat.Flavors)
             .ThenInclude(join => join.Flavor)
             .FirstOrDefault(treat => treat.TreatId == id);
             return View(model);
