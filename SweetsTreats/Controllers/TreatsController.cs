@@ -1,11 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System;
 using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Security.Claims;
-using System.Collections.Generic;
 using SweetsTreats.Models;
 
 
@@ -28,6 +30,7 @@ namespace SweetsTreats.Controllers
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var currentUser = await _userManager.FindByIdAsync(userId);
             return View(_db.Treats.Where(x => x.User.Id == currentUser.Id).ToList());
+
         }
         public ActionResult Details(int id)
         {
@@ -37,13 +40,12 @@ namespace SweetsTreats.Controllers
             .FirstOrDefault(treat => treat.TreatId == id);
             return View(model);
         }
-
         public ActionResult Create()
         {
-            ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Name");
+            ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Description");
             return View();
         }
-
+        
         [HttpPost]
         public async Task<ActionResult> Create(Treat treat)
         {
@@ -54,17 +56,17 @@ namespace SweetsTreats.Controllers
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
-
         public ActionResult Edit(int id)
         {
-            ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Name");
-            var thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
+            ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Description");
+            var thisTreat = _db.Treats.FirstOrDefault(categories => categories.TreatId == id);
             return View(thisTreat);
         }
 
         [HttpPost]
         public ActionResult Edit(Treat treat)
         {
+            ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Description");
             _db.Entry(treat).State = EntityState.Modified;
             _db.SaveChanges();
             return RedirectToAction("Index");

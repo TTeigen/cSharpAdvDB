@@ -1,6 +1,7 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -26,16 +27,28 @@ namespace SweetsTreats
 
             services.AddEntityFrameworkMySql()
                 .AddDbContext<SweetsTreatsContext>(options => options
-                .UseMySql(Configuration["ConnectionStrings:DefaultConnection"]));
+                .UseMySql("Server=localhost;Port=3306;database=trevor_teigen;uid=root;pwd=epicodus;"));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<SweetsTreatsContext>()
                 .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredUniqueChars = 0;
+            });
         }
 
         public void Configure(IApplicationBuilder app)
         {
             app.UseDeveloperExceptionPage();
+            
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

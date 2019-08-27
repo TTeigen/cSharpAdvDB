@@ -2,7 +2,7 @@
   Layout = "_Layout";
 }
 
-@model SweetTreats.Models.Flavor
+@model SweetsTreats.Models.Flavor
 
 <h2>Flavor Details</h2>
 <hr />
@@ -14,14 +14,14 @@
 }
 else
 {
-  <h4>Treats the flavor belongs to:</h4>
+  <h4>Treats with this Flavor</h4>
   <ul>
   @foreach(var join in Model.Treats)
   {
     <li>@join.Treat.Name</li>
     @using (Html.BeginForm("DeleteTreat", "Flavors"))
     {
-      @Html.Hidden("joinId", @join.TreatFlavorId)
+      @Html.Hidden("joinId", @join.FlavorTreatId)
       <input type="submit" value="Delete"/>
     }
   }

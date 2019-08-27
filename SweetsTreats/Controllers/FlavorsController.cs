@@ -11,7 +11,6 @@ using SweetsTreats.Models;
 
 namespace SweetsTreats.Controllers
 {
-    [Authorize]
     public class FlavorsController : Controller
     {
         private readonly SweetsTreatsContext _db;
@@ -23,34 +22,26 @@ namespace SweetsTreats.Controllers
             _db = db;
         }
 
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var currentUser = await _userManager.FindByIdAsync(userId);
-            return View(_db.Flavors.Where(x => x.User.Id == currentUser.Id).ToList());
-
+            var model = _db.Flavors.ToList();
+            return View(model);
         }
 
         public ActionResult Create()
         {
-            ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "Name");
             return View();
         }
 
 
-
+        // [Authorize]
         [HttpPost]
-        public async Task<ActionResult> Create(Flavor flavor, int TreatId)
+        public async Task<ActionResult> Create(Flavor flavor)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var currentUser = await _userManager.FindByIdAsync(userId);
             flavor.User = currentUser;
             _db.Flavors.Add(flavor);
-            if (TreatId != 0)
-            {
-                _db.FlavorTreats.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });
-
-            }
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -72,12 +63,8 @@ namespace SweetsTreats.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Flavor flavor, int TreatId)
+        public ActionResult Edit(Flavor flavor)
         {
-            if (TreatId != 0)
-            {
-                _db.FlavorTreats.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });
-            }
             _db.Entry(flavor).State = EntityState.Modified;
             _db.SaveChanges();
             return RedirectToAction("Index");
@@ -94,15 +81,6 @@ namespace SweetsTreats.Controllers
         {
             var thisFlavor = _db.Flavors.FirstOrDefault(flavors => flavors.FlavorId == id);
             _db.Flavors.Remove(thisFlavor);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public ActionResult DeleteCategory(int joinId)
-        {
-            var joinEntry = _db.FlavorTreats.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
-            _db.FlavorTreats.Remove(joinEntry);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
