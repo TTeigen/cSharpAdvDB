@@ -6,18 +6,17 @@
 
 <h2>Update Product: @Html.DisplayFor(model => model.Name)</h2>
 
-
-@using (Html.BeginForm())
+@using (Html.BeginForm("AddFlavor", "Treats"))
 {
     @Html.HiddenFor(model => model.TreatId)
-
-    @Html.LabelFor(model => model.Name)
-    @Html.EditorFor(model => model.Name)
-
-    @Html.Label("Select flavor")
+    @Html.HiddenFor(model => model.Name)
+    
     @Html.DropDownList("FlavorId")
 
-    <input type="submit" value="Save" />
+    <input type="submit" class="btn btn-primary" value="Add" />
 }
+<hr>
 
+<p>@Html.ActionLink("Back to Treat", "Details", new { id = Model.TreatId })</p>
+<p>@Html.ActionLink("Delete Treat", "Delete", new { id = Model.TreatId })</p>
 <p>@Html.ActionLink("Back to list", "Index")</p>

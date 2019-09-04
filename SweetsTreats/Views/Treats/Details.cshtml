@@ -10,7 +10,7 @@
 
 @if(@Model.Flavors.Count == 0)
 {
-  <p>This treat does not have any registered flavors</p>
+  <p>This treat does not belong to any Flavors</p>
 }
 else
 {
@@ -19,7 +19,7 @@ else
   @foreach(var join in Model.Flavors)
   {
     <li>@join.Flavor.Description</li>
-    @using (Html.BeginForm("Delete Flavor", "Items"))
+    @using (Html.BeginForm("DeleteFlavor", "Treats", new {treatId = Model.TreatId}))
     {
       @Html.Hidden("joinId", @join.FlavorTreatId)
       <input type="submit" value="Delete"/>
@@ -28,6 +28,6 @@ else
   </ul>
 }
 
-<p>@Html.ActionLink("Back to list", "Index")</p>
-<p>@Html.ActionLink("Edit Item", "Edit", new { id = Model.TreatId })</p>
-<p>@Html.ActionLink("Delete Item", "Delete", new { id = Model.TreatId })</p>
+<p>@Html.ActionLink("Edit Treat", "Edit", new { id = Model.TreatId })</p>
+<p>@Html.ActionLink("Delete Treat", "Delete", new { id = Model.TreatId })</p>
+<p>@Html.ActionLink("Back to Treats", "Index")</p>
